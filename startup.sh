@@ -36,6 +36,9 @@ sudo apt-get install zsh -y
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 chsh -s /bin/zsh
 
+echo 'Installing oh-my-zsh'
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
 echo 'Installing tool to handle clipboard via CLI'
 sudo apt-get install xclip -y
 
@@ -92,15 +95,23 @@ nvm alias default 12
 node --version
 npm --version
 
-echo 'installing autosuggestions' 
+echo 'installing autosuggestions, zsh-completions and zsh-syntax-highlighting' 
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
+git clone git@github.com:zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
+git clone git://github.com/zsh-users/zsh-completions.git ~/.zsh/zsh-completions
+echo "source ~/.zsh/zsh-completions/zsh-completions.zsh" >> ~/.zshrc
 source ~/.zshrc
+
+echo 'installing theme'
+sudo apt install fonts-firacode -y
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+sed -i 's/.*ZSH_THEME=.*/ZSH_THEME="powerlevel10k/powerlevel10k"/g' ~/.zshrc
 
 echo 'installing slack' 
 wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.3.8-amd64.deb
 sudo apt install ./slack-desktop-*.deb -y
-
 
 echo 'installing docker' 
 sudo apt-get remove docker docker-engine docker.io
@@ -124,21 +135,10 @@ curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64
 sudo dpkg -i session-manager-plugin.deb
 session-manager-plugin --version
 
+echo 'installing teamviewer'
+wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
+sudo apt install -y ./teamviewer_amd64.deb
 
-
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone git@github.com:zsh-users/zsh-syntax-highlighting.git .oh-my-zsh/zsh-syntax-highlighting
-git clone git://github.com/zsh-users/zsh-completions.git .oh-my-zsh/zsh-completions
-
-# git clone https://github.com/romkatv/powerlevel10k.git .oh-my-zsh/powerlevel10k
-# git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
-
-sudo apt update -y
-sudo apt install -y git make ncurses-devel gcc autoconf man yodl
-git clone -b zsh-5.7.1 https://github.com/zsh-users/zsh.git /tmp/zsh
-cd /tmp/zsh
-./Util/preconfig
-./configure
-sudo make -j 20 install
-which zsh
+echo 'installing vnc-viewer'
+sudo apt-get install -y --no-install-recommends ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
+sudo apt-get install vnc4server -y 
