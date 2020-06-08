@@ -189,3 +189,6 @@ sudo apt install -y ./teamviewer_amd64.deb
 echo 'installing vnc-viewer'
 sudo apt-get install -y --no-install-recommends ubuntu-desktop gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal
 sudo apt-get install vnc4server -y 
+
+echo 'Installing VLC player with plugins'
+sudo apt install vlc-plugin-access-extra libbluray-bdj libdvdcss2 -y
